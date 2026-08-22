@@ -29,7 +29,9 @@ def main() -> int:
     if len(sys.argv) < 2:
         print("用法: python scripts/inject_keys.py <项目目录>")
         return 2
-    project = (ROOT / sys.argv[1]).resolve()
+    # 允许用户写 chapter1\context 或 chapter1/context
+    arg = sys.argv[1].replace("\\", "/").strip().strip("/")
+    project = (ROOT / arg).resolve()
     if not project.is_dir():
         print(f"❌ 目录不存在: {project}")
         return 1
