@@ -5,6 +5,8 @@ results/
 .*
 !.github
 !.github/**
+!.devcontainer
+!.devcontainer/**
 !.gitignore
 !.env.example
 *.log
