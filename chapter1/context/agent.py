@@ -339,11 +339,16 @@ class ContextAwareAgent:
             "kimi": ("https://api.moonshot.cn/v1", "kimi-k3"),
             "moonshot": ("https://api.moonshot.cn/v1", "kimi-k3"),
             "openrouter": ("https://openrouter.ai/api/v1", "openai/gpt-5.6-luna"),
+            # OpenAI-compatible endpoints: same SDK, different base_url.
+            "gemini": ("https://generativelanguage.googleapis.com/v1beta/openai/",
+                       "gemini-2.5-flash"),
+            "claude": ("https://api.anthropic.com/v1/", "claude-sonnet-5"),
+            "anthropic": ("https://api.anthropic.com/v1/", "claude-sonnet-5"),
         }
         if self.provider not in provider_defaults:
             raise ValueError(
                 f"Unsupported provider: {provider}. Use 'siliconflow', 'doubao', "
-                "'kimi', 'moonshot', or 'openrouter'"
+                "'kimi', 'moonshot', 'gemini', 'claude', or 'openrouter'"
             )
         base_url, default_model = provider_defaults[self.provider]
         resolved_model = model or default_model

@@ -86,6 +86,14 @@ class Config:
     
     MOONSHOT_API_KEY: str = os.getenv("MOONSHOT_API_KEY", "")
     MOONSHOT_BASE_URL: str = "https://api.moonshot.cn/v1"
+
+    # Gemini and Claude are reached through their OpenAI-compatible endpoints,
+    # so the same OpenAI SDK client works unchanged.
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", "")
+    GEMINI_BASE_URL: str = "https://generativelanguage.googleapis.com/v1beta/openai/"
+
+    ANTHROPIC_API_KEY: str = os.getenv("ANTHROPIC_API_KEY", "")
+    ANTHROPIC_BASE_URL: str = "https://api.anthropic.com/v1/"
     
     # Model Configuration (defaults based on provider)
     MODEL_NAME: str = os.getenv("MODEL_NAME", "")  # Will be set based on provider if not specified
@@ -145,6 +153,10 @@ class Config:
             return cls.ARK_API_KEY
         elif provider == "kimi" or provider == "moonshot":
             return cls.MOONSHOT_API_KEY
+        elif provider == "gemini":
+            return cls.GEMINI_API_KEY
+        elif provider == "claude" or provider == "anthropic":
+            return cls.ANTHROPIC_API_KEY
         else:
             return ""
     
@@ -171,6 +183,10 @@ class Config:
             return "doubao-seed-1-6-thinking-250715"
         elif provider == "kimi" or provider == "moonshot":
             return "kimi-k3"
+        elif provider == "gemini":
+            return "gemini-2.5-flash"
+        elif provider == "claude" or provider == "anthropic":
+            return "claude-sonnet-5"
         else:
             return ""
     
@@ -195,6 +211,10 @@ class Config:
                 print("ERROR: ARK_API_KEY is not set")
             elif provider == "kimi" or provider == "moonshot":
                 print("ERROR: MOONSHOT_API_KEY is not set")
+            elif provider == "gemini":
+                print("ERROR: GEMINI_API_KEY (or GOOGLE_API_KEY) is not set")
+            elif provider == "claude" or provider == "anthropic":
+                print("ERROR: ANTHROPIC_API_KEY is not set")
             else:
                 print(f"ERROR: No API key configured for provider: {provider}")
             
