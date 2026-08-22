@@ -59,6 +59,8 @@
 ## 四、分阶段学习计划（约 10~12 周）
 
 > 节奏假设：每周 6~10 小时。时间更充裕可以压缩到 6~8 周；只想建立认知可以只做每阶段的「必做实验」。方法论：**每章先读书稿（`book/chapterN.md`），再跑实验，最后做一个小改动验证理解**。
+>
+> **如果你的节奏是每天 1 小时**，请直接使用第七节《每天 1 小时版日程（14 周）》，它把下面各阶段拆成了逐日任务。
 
 ### 阶段一（第 1 周）· 基础认知：Agent 是什么
 
@@ -171,3 +173,197 @@
 3. **控制成本**：优先用国产平台的便宜模型（GLM、DeepSeek、Kimi）跑通流程，再按需换强模型对比；关注第 6 章的成本分析方法；
 4. **建立自己的评估习惯**：从阶段六开始，对自己写的任何 Agent 都保留一个小评估集，改动前后跑分对比；
 5. **善用 Coding Agent 学习本仓库**：用 Claude Code / Cursor 打开本仓库提问、让它解释代码，本身就是在体验书中讲的一切。
+
+## 七、每天 1 小时版日程（14 周）
+
+> **总量**：14 周 × 6 天 × 1 小时 ≈ 84 小时。每周第 7 天留作**机动日**（补上落下的进度、复盘笔记，或休息）。
+>
+> **一小时的用法约定**：一个小时不足以「既读完一章又跑完一个实验」，所以每一天只安排**一件事**——要么读，要么跑，要么改。这是这版日程与上面周计划的最大区别。
+>
+> **每日固定节奏**（建议）：
+> - 前 5 分钟：回看昨天笔记的一句话结论；
+> - 中间 50 分钟：完成当天任务；
+> - 最后 5 分钟：在自己的笔记里写**一句话**——「今天我明白了 ___」。这一句话是整个计划里最重要的产出。
+>
+> **两条保命规则**：
+> 1. **卡住 25 分钟就停**。装依赖、配 Key、跑不通是常态。记下报错，第二天或机动日再战，绝不要让一个环境问题吃掉一周的热情。
+> 2. **读不完不要紧，别停**。书稿章节都很长，日程里给的是「读到哪一节」而非「读完」，按小节推进即可。
+
+### 第 1 周 · 环境与全局认知
+
+| 天 | 任务 | 产出 |
+| --- | --- | --- |
+| 1 | 读 `book/introduction.md`（引言）；浏览 `README.md` 的《内容速览》 | 能说出全书十章各讲什么 |
+| 2 | 装环境：Python 3.10+、venv、git；注册 1~2 个 API 平台（推荐 GLM + SiliconFlow，便宜够用） | 拿到 API Key 并存好 |
+| 3 | 读 `book/chapter1.md` 前半（Agent 核心公式、大脑/眼睛/手脚、Policy/观察/动作空间） | 一句话复述核心公式 |
+| 4 | 读 `book/chapter1.md` 后半（ReAct 循环、三种学习范式、工作流 vs 自主 Agent） | 画一张 ReAct 循环草图 |
+| 5 | 跑 `chapter1/context/`：装依赖、配 `.env`、跑通默认模式 | 看到 Agent 完整跑完一个任务 |
+| 6 | 继续 `chapter1/context/`：切换不同上下文模式（去掉工具结果 / 去掉历史等）跑消融 | 对比表：少了哪块上下文，Agent 怎么退化 |
+| 7 | 机动日 | — |
+
+### 第 2 周 · 上下文工程（上）
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 跑 `chapter1/learning-from-experience/`，看 Q-learning 与 LLM 的样本效率差距 |
+| 2 | 读 `book/chapter2.md`：消息结构与 Agent 核心循环（"上下文就是消息列表"） |
+| 3 | 读 `book/chapter2.md`：KV Cache 原理小节（读不动可只记开头三条核心结论，不影响后续） |
+| 4 | 跑 `chapter2/kv-cache/`，观察不同上下文写法对缓存命中的影响 |
+| 5 | 继续 `chapter2/kv-cache/`：故意制造一次缓存失效（如在系统提示里插入当前时间戳），量化延迟/成本变化 |
+| 6 | 读 `book/chapter2.md`：提示工程小节（流程化设计、工具描述、业务规则细化） |
+| 7 | 机动日 |
+
+### 第 3 周 · 上下文工程（下）
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 跑 `chapter2/prompt-engineering/`：先跑通 baseline（Tau-Bench 环境，注意控制样本量省钱） |
+| 2 | 继续该实验：跑 1~2 组消融配置，对比任务完成率 |
+| 3 | 读 `book/chapter2.md`：提示注入攻防小节 |
+| 4 | 跑 `chapter2/prompt-injection/`：复现一次成功的注入攻击（无防御配置） |
+| 5 | 继续：逐层打开防御（提示词加固 → 来源标记 → 组合防御），看成功率下降曲线 |
+| 6 | 读 `book/chapter2.md`：Agent Skills 按需加载 + 状态栏 + 上下文压缩小节 |
+| 7 | 机动日 |
+
+### 第 4 周 · 上下文收尾 + 检索入门
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 跑 `chapter2/context-compression/`，对比几种压缩策略的 token 节省与信息损失 |
+| 2 | 跑 `chapter2/agent-skills-ppt/`，体验渐进式披露（薄目录 → 按需加载完整 Skill） |
+| 3 | 读 `book/chapter3.md`：用户记忆的四种渐进式策略 |
+| 4 | 跑 `chapter3/user-memory/`，跨会话记住用户偏好 |
+| 5 | 读 `book/chapter3.md`：RAG 技术栈（分块、稀疏/稠密检索） |
+| 6 | 跑 `chapter3/sparse-embedding/`，从零看懂 BM25 与倒排索引 |
+| 7 | 机动日 |
+
+### 第 5 周 · 检索全栈
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 跑 `chapter3/dense-embedding/`，对比 ANNOY（树）与 HNSW（图）的性能/内存/更新能力 |
+| 2 | 读 `book/chapter3.md`：重排序与混合检索小节 |
+| 3 | 跑 `chapter3/retrieval-pipeline/`，把稀疏 + 稠密 + 重排序串成完整流水线 |
+| 4 | 读 `book/chapter3.md`：Agentic RAG 小节 |
+| 5 | 跑 `chapter3/agentic-rag/`：先跑 Non-Agentic 基线（司法问答） |
+| 6 | 继续：跑 Agentic 模式，对比答案质量与检索轮次 |
+| 7 | 机动日 |
+
+### 第 6 周 · 工具与 MCP
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter4.md`：MCP 标准 + 五类工具设计原则 |
+| 2 | 跑 `chapter4/perception-tools/`：启动感知类 MCP 服务器（多数功能免 Key） |
+| 3 | 读 `book/chapter4.md`：执行工具的安全机制小节 |
+| 4 | 跑 `chapter4/execution-tools/`，观察 LLM 二次审批如何拦住危险操作 |
+| 5 | **自己动手**：给 perception-tools 加一个自定义 MCP 工具（哪怕只是"查询本机时间/天气"） |
+| 6 | 跑 `chapter4/agent-with-event-trigger/`，让 Agent 通过 HTTP 事件触发并调用上面的 MCP 工具 |
+| 7 | 机动日 |
+
+### 第 7 周 · Coding Agent（上）
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter5.md`：Coding Agent + 文件系统为何是通用 Agent 的技术基础 |
+| 2 | 精读 `chapter5/coding-agent/system-prompt.md`，对照第 2 章的提示工程原则找印证 |
+| 3 | 跑 `chapter5/coding-agent/quickstart.py`，让它完成一个简单编码任务 |
+| 4 | 读 `chapter5/coding-agent/agent.py` 的主循环，把 ReAct 在真实代码里认出来 |
+| 5 | 浏览它的 17 个工具定义，重点看纯 Python 实现的 Grep 工具 |
+| 6 | **自己动手**：给 coding-agent 加一个自定义工具并跑通 |
+| 7 | 机动日 |
+
+### 第 8 周 · Coding Agent（下）
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter5.md`：代码在编程之外的价值（辅助思考、造工具、自举） |
+| 2 | 跑 `chapter5/code-for-math/`：纯思维链模式 |
+| 3 | 继续：代码辅助模式，对比准确率 |
+| 4 | 读 `book/chapter5.md`：提议者-审核者（proposer-reviewer）小节 |
+| 5 | 跑 `chapter5/paper-to-ppt/`，看 Reviewer 如何用 Vision 检查排版并驱动迭代 |
+| 6 | 跑 `chapter5/erp-agent/`，理解 artifact 模式（LLM 只生成 SQL，不亲自搬数据） |
+| 7 | 机动日 |
+
+### 第 9 周 · 评估方法论
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter6.md`：评估环境与数据集设计原则 |
+| 2 | 跑 `chapter6/model-benchmark/`，测几个平台的 TTFT / p50 / p95 / 吞吐 |
+| 3 | 读 `book/chapter6.md`：LLM-as-a-Judge 与统计显著性 |
+| 4 | 跑 `chapter6/tts-quality-eval/` 或 `chapter6/elo-leaderboard/`，体验自动评判 |
+| 5 | 跑 `chapter6/agent-cost-analysis/`，拆出「哪一步最贵」 |
+| 6 | **自己动手**：给第 7 周那个加了工具的 coding-agent 写 10 个测试用例，跑出成功率基线 |
+| 7 | 机动日 |
+
+### 第 10 周 · 后训练（以读为主，无需 GPU）
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter7.md`：预训练/SFT/RL 三阶段全景 |
+| 2 | 读：「SFT 记忆、RL 泛化」与经典 RL 理论小节 |
+| 3 | 读：奖励信号设计（二元 → 过程奖励 → 奖励结果约束过程） |
+| 4 | 读：单轮 vs 多轮 RL 算法（PPO / GRPO / DAPO）比较 |
+| 5 | 读 `chapter7/SFTvsRL/` 与 `chapter7/AdaptThink/` 的 README，理解实验怎么设计 |
+| 6 | 写一段自己的决策笔记：「我的场景该用提示工程、SFT 还是 RL」（有 GPU 可改为跑 `chapter7/MiniMind-pretrain/`） |
+| 7 | 机动日 |
+
+### 第 11 周 · 自我进化
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter8.md`：从经验中学习（策略摘要、工作流录制、Skills 外部化） |
+| 2 | 跑 `chapter8/active-tool-discovery/`：先跑「全量注入 120+ 工具」基线 |
+| 3 | 继续：跑「按需发现」模式，对比 token 消耗与选错工具的比例 |
+| 4 | 读 `book/chapter8.md`：主动发现与创造工具（MCP-Zero、Alita 式进化） |
+| 5 | 跑 `chapter8/prompt-auto-optimization/`，走一遍「反馈 → 改写提示词 → 重新评测」闭环 |
+| 6 | 跑 `chapter8/self-evolving-tools/`，看 Agent 自己上网找库、沙箱验证、封装成新工具 |
+| 7 | 机动日 |
+
+### 第 12 周 · 多模态与实时交互
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter9.md`：语音三范式（级联 / 端到端全模态 / 全双工） |
+| 2 | 跑 `chapter9/streaming-speech/`，体会「首包延迟 vs 过早决策代价」的权衡 |
+| 3 | 跑 `chapter9/live-audio/`：配置 ASR + LLM + TTS 链路（这天可能只够配环境） |
+| 4 | 继续 `chapter9/live-audio/`：跑通对话，看各段延迟数据 |
+| 5 | 读 `book/chapter9.md`：Computer Use 与机器人操作（VLA、Sim2Real） |
+| 6 | 跑 `chapter9/controllable-tts/` 或 `chapter9/phone-agent/`（任选其一） |
+| 7 | 机动日 |
+
+### 第 13 周 · 多 Agent 协作
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 读 `book/chapter10.md`：多 Agent 分类框架（上下文共享/独立 × 对等/管理者/去中心化） |
+| 2 | 跑 `chapter10/book-translation/`：先看单 Agent 方案的上下文膨胀 |
+| 3 | 继续：跑管理者模式，对比真实 token 数 |
+| 4 | 跑 `chapter10/multi-role-transfer/`，理解共享上下文下的自主 handoff |
+| 5 | 跑 `chapter10/voice-werewolf/`，理解不共享上下文时的信息权限控制与审计校验 |
+| 6 | 读 `book/chapter10.md` 收尾（失败模式、Agent 社会）+ `book/afterword.md` |
+| 7 | 机动日 |
+
+### 第 14 周 · 结业项目
+
+| 天 | 任务 |
+| --- | --- |
+| 1 | 定题 + 设计：选一个你自己的真实需求，写下 Agent 的三要素设计（模型选型 / 上下文策略 / 工具清单） |
+| 2 | 搭骨架：主循环 + LLM 调用跑通 |
+| 3 | 加工具：至少 2 个自定义工具（第 4 章） |
+| 4 | 加上下文管理：KV Cache 友好的消息组织 + 必要时压缩（第 2 章） |
+| 5 | 写评估集：10~20 个用例，跑出成功率（第 6 章） |
+| 6 | 迭代一轮：针对失败用例改提示词或工具，再跑评估，对比前后分数 |
+| 7 | 复盘：把 14 周的每日一句话笔记整理成一份自己的《Agent 设计原则清单》 |
+
+### 进度自查（每 4 周问自己一次）
+
+- 第 4 周末：能否解释「为什么系统提示要稳定在前面、工具结果要追加而不是改写」？
+- 第 8 周末：能否给一个 Agent 加上自定义工具，并说清工具描述怎么写才不会被误用？
+- 第 12 周末：能否为自己的 Agent 设计一个评估集，并用数据判断一次改动是变好还是变坏？
+- 第 14 周末：能否只用「模型 + 上下文 + 工具」三个词，把你见到的任意一个 Agent 产品拆解清楚？
+
+### 如果每天只有 1 小时且想更快见效
+
+可以砍到 **7 周速成路线**（仍是每天 1 小时）：第 1 周（基础）→ 第 2~3 周（上下文工程，全书最关键）→ 第 6 周（工具与 MCP）→ 第 7 周（Coding Agent 上）→ 第 9 周（评估）→ 第 14 周（结业项目）。检索、后训练、多模态、多 Agent 留到有需要时再按主计划补。
