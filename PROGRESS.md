@@ -17,6 +17,33 @@ bash scripts/setup-chapter.sh chapter1/context   # 2. 准备当前项目（PC �
 cp keys.env.example .keys.env    # 然后手工填入你的 Key
 ```
 
+## 设备与路径
+
+| 设备 | 仓库位置 |
+| --- | --- |
+| PC | `H:\Dropbox\Academy\Claude Code\AI-AGENT-BOOK`（**Dropbox 需排除 `.git` 和 `.venv`**，见下） |
+| Mac | 待定 |
+
+**同步走 git，不要走 Dropbox。** 两台设备靠 `git pull` / `git push` 同步，GitHub 是唯一真相。
+让 Dropbox 也同步这个文件夹会出两类问题：
+
+1. **`.git` 被 Dropbox 同步会损坏仓库**——git 写 `index.lock`、打包对象时若 Dropbox 正在半同步，
+   会出现 "another git process seems to be running" 或对象损坏，且会生成 `xxx (conflicted copy).py`
+   这类文件悄悄污染代码。
+2. **`.venv` 体积巨大且不跨平台**——单个项目的 venv 就有 269 MB / 约 11000 个文件，全书 69 个项目。
+   而且 Mac 装的是 macOS 二进制，同步到 PC 根本不能用，纯属拖垮 Dropbox。
+
+**在 PC 上让 Dropbox 忽略这两个目录**（PowerShell，在仓库根目录执行）：
+
+```powershell
+Set-Content -Path ".git"   -Stream com.dropbox.ignored -Value 1
+Get-ChildItem -Path . -Recurse -Directory -Filter ".venv" | ForEach-Object {
+    Set-Content -Path $_.FullName -Stream com.dropbox.ignored -Value 1
+}
+```
+
+每次在新项目里建了 `.venv`，重跑一次上面第二条即可。
+
 ## 当前状态
 
 - **所在阶段**：第 1 周 · 地基
