@@ -46,9 +46,16 @@ Get-ChildItem -Path . -Recurse -Directory -Filter ".venv" | ForEach-Object {
 
 ## 当前状态
 
-- **所在阶段**：第 1 周 · 地基
-- **下一步**：填好 `.keys.env` 里的 `GEMINI_API_KEY`，跑 `cd chapter1/context && .venv/bin/python main.py`，观察 `Iteration N/10` 的推进
-- **待办**：跑完 5 种上下文模式的消融对比
+- **所在阶段**：第 1 周 · 地基（计划见 `LEARNING_PLAN.md` 第八节 · 7 周速成路线）
+- **工作方式**：本地 clone（Mac + PC），用 VS Code 里的 Claude Code 操作；同步走 git，不走 Dropbox
+- **已完成**：第 1 周 Day 1~4 的概念部分（核心公式、ReAct 循环、消息列表结构）；
+  `chapter1/context` 已支持 Gemini / Claude；写了离线预习脚本 `chapter1/context/lesson1_peek.py`
+- **下一步（Day 5）**：在本机准备环境并首次跑通
+  1. `copy keys.env.example .keys.env`，填 `LLM_PROVIDER=gemini` 和 `GEMINI_API_KEY`
+  2. `powershell -ExecutionPolicy Bypass -File .\scripts\setup-chapter.ps1 chapter1/context`（Mac: `bash scripts/setup-chapter.sh chapter1/context`）
+  3. 跑 `main.py`，输入 `samples` 再 `sample 1`，观察日志里 `Iteration N/10` 怎么推进
+- **待办（Day 6）**：跑完 5 种上下文模式（`full` / `no_history` / `no_reasoning` / `no_tool_calls` / `no_tool_results`）的消融对比，
+  记录每种模式「转了几轮、调了哪些工具、答案对不对」，填成对照表
 
 ## 日志
 
